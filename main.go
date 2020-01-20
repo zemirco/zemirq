@@ -11,10 +11,6 @@ import (
 	"nanomsg.org/go/mangos/v2/transport/ws"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello world!")
-}
-
 func subHandler(sock mangos.Socket) {
 	count := 0
 	for {
@@ -50,7 +46,6 @@ func main() {
 
 	go subHandler(sock)
 
-	http.HandleFunc("/", handler)
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 
 	log.Fatal(http.ListenAndServe(":3000", nil))
